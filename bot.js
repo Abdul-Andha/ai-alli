@@ -25,26 +25,13 @@ for (const file of commandFiles) {
 //Permissions Handler
 
 
-
-//Message Command Handler
-bot.msgCommands = new Collection();
-const msgCommandFiles = readdirSync('./msgCommands/').filter(file => file.endsWith('.js'));
-
-for (const file of msgCommandFiles) {
-	const command = require(`./msgCommands/${file}`);
-	bot.msgCommands.set(command.name, command);
-}
-
 //Event Handler
 const eventFiles = readdirSync("./events").filter(file => file.endsWith(".js"));
 
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
-
 	if (event.once) {
 		bot.once(event.name, (...args) => event.execute(...args, commands))
-	} else if (event.name === "messageCreate") {
-		bot.on("messageCreate", receivedMessage => event.execute(receivedMessage, bot.msgCommands, bot))
 	} else {
 		bot.on(event.name, (...args) => event.execute(...args, commands))
 	}
