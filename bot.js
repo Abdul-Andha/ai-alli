@@ -1,18 +1,13 @@
 //Requires
 require('dotenv').config();
-import { readdirSync } from 'fs';
-import { Client, Intents, Collection } from 'discord.js';
+const fs = require('fs');
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
 //Setting new client
-const bot = new Client({
-	intents: [
-		Intents.FLAGS.GUILDS,
-		Intents.FLAGS.GUILD_MESSAGES
-	]
-});
+const bot = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 //Slash Command Handler
-const commandFiles = readdirSync("./commands").filter(file => file.endsWith(".js"));
+const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
 const commands = [];
 bot.commands = new Collection();
 
@@ -26,7 +21,7 @@ for (const file of commandFiles) {
 
 
 //Event Handler
-const eventFiles = readdirSync("./events").filter(file => file.endsWith(".js"));
+const eventFiles = fs.readdirSync("./events").filter(file => file.endsWith(".js"));
 
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
