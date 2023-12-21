@@ -28,13 +28,12 @@ for (const file of commandFiles) {
 
 //Event Handler
 const eventFiles = fs.readdirSync("./events").filter(file => file.endsWith(".js"));
-console.log(eventFiles)
+
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
 	if (event.once) {
 		bot.once(event.name, (...args) => event.execute(...args, commands))
 	} else {
-		console.log(event)
 		bot.on(event.name, (...args) => event.execute(...args, commands))
 	}
 
