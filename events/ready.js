@@ -7,7 +7,6 @@ module.exports = {
   once: "true",
   async execute(bot, commands) {
     console.log("Connected as " + bot.user.tag);
-
     const CLIENT_ID = bot.user.id;
 
     const rest = new REST({

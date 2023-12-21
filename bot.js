@@ -4,7 +4,13 @@ const fs = require('fs');
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 
 //Setting new client
-const bot = new Client({ intents: [GatewayIntentBits.Guilds] });
+const bot = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent
+	]
+});
 
 //Slash Command Handler
 const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
@@ -22,12 +28,13 @@ for (const file of commandFiles) {
 
 //Event Handler
 const eventFiles = fs.readdirSync("./events").filter(file => file.endsWith(".js"));
-
+console.log(eventFiles)
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
 	if (event.once) {
 		bot.once(event.name, (...args) => event.execute(...args, commands))
 	} else {
+		console.log(event)
 		bot.on(event.name, (...args) => event.execute(...args, commands))
 	}
 
