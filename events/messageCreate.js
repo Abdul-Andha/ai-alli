@@ -4,7 +4,7 @@ module.exports = {
     oldDomain = "";
     if (message.content.includes("https://x.com"))
       oldDomain = "https://x.com";
-    else if (!message.content.includes("https://twitter.com"))
+    else if (message.content.includes("https://twitter.com"))
       oldDomain = "https://twitter.com";
     else return;
 
@@ -14,7 +14,7 @@ module.exports = {
       if (end === -1) end = message.content.length;
 
       let link = message.content.substring(start, end);
-      let newLink = link.replace(oldDomain, "fxtwitter.com");
+      let newLink = link.replace(oldDomain, "https://fxtwitter.com");
 
       message.channel.send(newLink);
     } catch (err) {
