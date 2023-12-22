@@ -1,12 +1,18 @@
 module.exports = {
   name: "messageCreate",
   async execute(message) {
-    oldDomain = "";
-    if (message.content.includes("https://x.com"))
+    let oldDomain = "";
+    let newDomain = "";
+    if (message.content.includes("https://x.com")) {
       oldDomain = "https://x.com";
-    else if (message.content.includes("https://twitter.com"))
+      newDomain = "https://fxtwitter.com";
+    } else if (message.content.includes("https://twitter.com")) {
       oldDomain = "https://twitter.com";
-    else return;
+      newDomain = "https://fxtwitter.com";
+    } else if (message.content.includes(".instagram.com")) {
+      oldDomain = ".instagram.com";
+      newDomain = "https://ddinstagram.com";
+    } else return;
 
     try {
       let start = message.content.indexOf(oldDomain);
@@ -14,7 +20,7 @@ module.exports = {
       if (end === -1) end = message.content.length;
 
       let link = message.content.substring(start, end);
-      let newLink = link.replace(oldDomain, "https://fxtwitter.com");
+      let newLink = link.replace(oldDomain, newDomain);
 
       message.channel.send(newLink);
     } catch (err) {
